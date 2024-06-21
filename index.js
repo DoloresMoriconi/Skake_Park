@@ -16,7 +16,7 @@ app.use(fileUpload())
 app.use(express.json())
 // Archivos estáticos
 app.use(express.static('static'))
-app.use('/photos', express.static('photos')); // Servir fotos desde la carpeta 'photos'
+
 
 // Motor de vistas
 app.engine('handlebars', engine());
@@ -25,7 +25,7 @@ app.set('views', './views');
 
 // Ruta para la página principal
 app.get('/', (req, res) => {
-   res.render('home'); // Renderizar home.handlebars utilizando main.handlebars como layout
+   res.render('login'); // Renderizar login.handlebars utilizando main.handlebars como layout
 });
 
 app.listen(3000, () => {console.log("App escuchando el puerto 3000")})
