@@ -41,6 +41,7 @@ export const updateSkater = async (data) => {
 
    const result = await db.query(text, values)
 
+   console.log(`Updated skater with id ${id}, new estado: ${estado}`);
    return result
 }
 

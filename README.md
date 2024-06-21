@@ -16,3 +16,4 @@ Se debe desarrollar una plataforma web en la que los participantes se podrán re
 
 ## Se creó la base de datos skatepark:
 Persistir la información de los usuarios en PostgreSQL usando la base de datos creada segun la tabla de participantes "skaters".
+
