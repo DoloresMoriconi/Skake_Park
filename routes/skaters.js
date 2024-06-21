@@ -1,16 +1,16 @@
 import { Router } from "express";
+import { createSkater, deleteStaker, getSkaters, updateSkater, updateSkaterStatus } from "../models/skaters.js";
 import * as db from "../db/db.js"
 
 const router = Router()
 
 router.get("/", async (req, res) => {
    try {
-      const text = "SELECT * FROM skaters"
-      const result = await db.query(text)
+      const result = await getSkaters()
 
       res.json({
          skaters: result.rows
-      })
+   })
    } catch (error) {
       console.error(error)
       res.status(500).json({
@@ -21,25 +21,15 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
    try {
-      const { email, nombre, password, anos_experiencia, especialidad } = req.body
-   
-      const text = "INSERT INTO skaters (email, nombre, password, anos_experiencia, especialidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6, $7)"
-      const values = [
-         email,
-         nombre,
-         password,
-         anos_experiencia,
-         especialidad, 
-         'photo',
-         false
-      ]
+      const data = req.body
       
-      const result = await db.query(text, values)
+      // Agregar photo
+      const result = await createSkater(data)
 
       res.json({
          message: 'Success',
-         skater: result.rows[0]
-      })
+      skater: result.rows[0]
+   })
    } catch (error) {
       res.status(500).json({
          message: 'Internal Server Error'
@@ -50,18 +40,35 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
    try {
-      const { email, nombre, password, anos_experiencia, especialidad, estado } = req.body
+      const data = req.body
+      // Analiza si estado viene vacío y lo define falso
+      if (!data.estado) {
+         data.estado = false
+   }
 
-      // EMAIL, FOTO
-      const text = "UPDATE skaters SET nombre = $1, password = $2, anos_experiencia = $3, especialidad = $4, estado = $5 WHERE email = $6 RETURNING *"
-      const values = [nombre, password, anos_experiencia, especialidad, estado, email]
+   const result = await updateSkater(data)
 
-      const result = await db.query(text, values)
+   console.log("RESULT", result)
+   res.json({
+      message: 'Updated skater',
+      skater: result.rows
+   })
+   } catch (error) {
+      res.status(500).json({
+         message: 'Internal Server Error'
+      })
+      console.error(error)
+   }
+})
+
+router.put("/status", async (req, res) => {
+   try {
+      const data = req.body
+      const result = await updateSkaterStatus(data)
 
       res.json({
-         message: 'Updated skater',
-         skater: result.rows[0]
-      })
+         message: `Updater user status`
+   })
    } catch (error) {
       res.status(500).json({
          message: 'Internal Server Error'
@@ -72,15 +79,12 @@ router.put("/", async (req, res) => {
 
 router.delete("/", async (req, res) => {
    try {
-      const {email} = req.query
-      const text = 'DELETE FROM skaters WHERE email = $1'
-      const values = [email]
-
-      const result = await db.query(text, values)
+      const data = req.query
+      const result = await deleteStaker(data)
 
       res.json({
-         message: `Deleted user with mail ${email}`
-      })
+         message: `Deleted user with mail ${data.email}`
+   })
    } catch (error) {
       res.status(500).json({
          message: 'Internal Server Error'
