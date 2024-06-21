@@ -1,0 +1,33 @@
+{
+  "name": "skate_park",
+  "version": "1.0.0",
+  "description": "se debe crar una API REST con el Framework Express, servir contenido dinámico con express-handlebars, ofrecer la funcionalidad upload filee con express-fileupload e implementar seguridad y restriccion de recursos o contenido con JWT ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon --env-file=.env index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DoloresMoriconi/Skake_Park.git"
+  },
+  "keywords": [
+    "express",
+    "node"
+  ],
+  "author": "Dolores Moriconi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoloresMoriconi/Skake_Park/issues"
+  },
+  "homepage": "https://github.com/DoloresMoriconi/Skake_Park#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "express-handlebars": "^7.1.3",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.12.0"
+  }
+}
